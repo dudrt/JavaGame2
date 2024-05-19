@@ -35,15 +35,15 @@ public class MinhaClasse {
             { "|", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "|", ".", ".", ".", }
     };
 
-    String[][] opcoesBatalha ={
-        {"Ataque","Soco","Tiro de Trabuco","Paulada"},
-        // {"Magia","Fogareu","Cura",""},
-        {"Fugir","","",""}
+    String[][] opcoesBatalha = {
+            { "Ataque", "Soco", "Tiro de Trabuco", "Paulada" },
+            // {"Magia","Fogareu","Cura",""},
+            { "Fugir", "", "", "" }
     };
 
-    String[][] posicaoOpcoesBatalha ={
-        {"P","","",""},
-        {"","","",""}
+    String[][] posicaoOpcoesBatalha = {
+            { "P", "", "", "" },
+            { "", "", "", "" }
     };
 
     public MinhaClasse(JFrame tela) {
@@ -51,7 +51,7 @@ public class MinhaClasse {
         initUI();
     }
 
-    public void OpcoesBatalha(String key){
+    public void OpcoesBatalha(String key) {
         int[] posicao = obterPosicoes();
         if (key.equals("RIGHT")) {
             if (posicao[1] < posicaoOpcoesBatalha[posicao[0]].length - 1) {
@@ -67,46 +67,41 @@ public class MinhaClasse {
         int[] posicaoFinal = obterPosicoes();
         GerarTelaBatalha(posicaoFinal);
 
-        
-        
-        
     }
+
     public int[] obterPosicoes() {
-        int [] posicao ={0,0};
+        int[] posicao = { 0, 0 };
         int posicao1 = 0;
-        int posicao2=0;
+        int posicao2 = 0;
         for (String[] linha : posicaoOpcoesBatalha) {
-            posicao2=0;
+            posicao2 = 0;
             for (String elemento : linha) {
-                if(elemento.equals("P")){
-                    posicao[0]=posicao1;
-                    posicao[1]=posicao2;
-                    
+                if (elemento.equals("P")) {
+                    posicao[0] = posicao1;
+                    posicao[1] = posicao2;
+
                     break;
                 }
                 posicao2++;
             }
             posicao1++;
         }
-        
+
         return posicao;
     }
 
-    public void GerarTelaBatalha(int[] array){
+    public void GerarTelaBatalha(int[] array) {
         StringBuilder tela = new StringBuilder("<html><head><style>")
-        .append("table { border-collapse: collapse; margin:0px;margin: 0px; padding: 0px;border:0px }")
-        .append("td { width: 150px; height: 150px; text-align: center; margin: 0px; padding: 0px;border-color:black}")
-        .append(".vazio { background-color: white; }")
-        .append(".jogador { background-color: blue; color: white; }")
-        .append(".inimigo { background-color: red; color: red; }")
-        .append(".opcao { background-color: yellow; color: red; width: 50px; height: 50px;}")
-        .append(".opcaoEscolhida { background-color: black; color: red; width: 50px; height: 50px;}")
-        .append("</style></head><body><table>")
-        .append("<tr><td class='vazio'><td class='vazio'></td><td class='inimigo'></td><td class='vazio'></tr>")
-        .append("<tr><td class='vazio'><td class='jogador'></td><td class='vazio'></td><td class='vazio'></tr>");
-
-
-
+                .append("table { border-collapse: collapse; margin:0px;margin: 0px; padding: 0px;border:0px }")
+                .append("td { width: 150px; height: 150px; text-align: center; margin: 0px; padding: 0px;border-color:black}")
+                .append(".vazio { background-color: transparent; }")
+                .append(".jogador { background-color: blue; color: white; }")
+                .append(".inimigo { background-color: red; color: red; }")
+                .append(".opcao { background-color: yellow; color: red; width: 50px; height: 50px;}")
+                .append(".opcaoEscolhida { background-color: black; color: red; width: 50px; height: 50px;}")
+                .append("</style></head><body><table>")
+                .append("<tr><td class='vazio'><td class='vazio'></td><td class='inimigo'></td><td class='vazio'></tr>")
+                .append("<tr><td class='vazio'><td class='jogador'><img src='https://image.pngaaa.com/804/465804-middle.png'></td><td class='vazio'></td><td class='vazio'></tr>");
 
         int interacao = 0;
         for (String[] linha : opcoesBatalha) {
@@ -114,13 +109,13 @@ public class MinhaClasse {
             int opcao = 0;
             for (String elemento : linha) {
 
-            //    System.out.println(array[0]+","+array[1]);
-                if(array[0] == interacao && array[1] == opcao){
-                    tela.append("<td class='opcaoEscolhida'>"+elemento+"</td>");
-                }else if(elemento.equals("")){
+                // System.out.println(array[0]+","+array[1]);
+                if (array[0] == interacao && array[1] == opcao) {
+                    tela.append("<td class='opcaoEscolhida'>" + elemento + "</td>");
+                } else if (elemento.equals("")) {
                     tela.append("<td class='vazio'></td>");
-                }else{
-                    tela.append("<td class='opcao'>"+elemento+"</td>");
+                } else {
+                    tela.append("<td class='opcao'>" + elemento + "</td>");
                 }
 
                 opcao++;
@@ -135,13 +130,10 @@ public class MinhaClasse {
 
     }
 
-    public void Batalha(){
+    public void Batalha() {
         batle = true;
-        int[] array = {0,0};
-        GerarTelaBatalha(array);
+        OpcoesBatalha("INIT");
 
-        
-        
     }
 
     private void initUI() {
@@ -155,7 +147,7 @@ public class MinhaClasse {
         panel.setFocusable(true); // Permitindo que o painel tenha o foco de entrada
         panel.requestFocusInWindow(); // Solicitando o foco de entrada imediatamente
         frame.add(panel);
-        
+
         String mapa = MontarMapa();
 
         // Criação do JLabel com o texto
@@ -176,35 +168,33 @@ public class MinhaClasse {
                 int keyCode = e.getKeyCode();
                 switch (keyCode) {
                     case KeyEvent.VK_UP:
-                        if(!batle){
+                        if (!batle) {
                             RemontarMapa("UP");
                         }
-                        
+
                         break;
                     case KeyEvent.VK_DOWN:
-                        if(!batle){
+                        if (!batle) {
                             RemontarMapa("DOWN");
                         }
-                        
+
                         break;
                     case KeyEvent.VK_LEFT:
-                        if(!batle){
+                        if (!batle) {
                             RemontarMapa("LEFT");
-                        }else{
+                        } else {
                             OpcoesBatalha("LEFT");
                         }
-                        
+
                         break;
                     case KeyEvent.VK_RIGHT:
-                        if(!batle){
+                        if (!batle) {
                             RemontarMapa("RIGHT");
-                        }else{
+                        } else {
                             OpcoesBatalha("RIGHT");
                         }
-                        
                         break;
                     default:
-                        System.out.println("aaaaa");
                         break;
                 }
             }
@@ -222,7 +212,7 @@ public class MinhaClasse {
     }
 
     public void RemontarMapa(String key) {
-        
+
         boolean encontrou = false;
         int posiY = 0;
         int posiX = 0;
@@ -235,47 +225,47 @@ public class MinhaClasse {
                     switch (key) {
                         case "UP":
                             if (mapaArray[posiY - 1][posiX] != "_" && mapaArray[posiY - 1][posiX] != "|") {
-                                    if(mapaArray[posiY - 1][posiX] == "%"){
-                                        Batalha();
-                                        
-                                    }else{
+                                if (mapaArray[posiY - 1][posiX] == "%") {
+                                    Batalha();
 
-                                        mapaArray[posiY][posiX] = ".";
-                                        mapaArray[posiY - 1][posiX] = "$";
-                                    }
+                                } else {
+
+                                    mapaArray[posiY][posiX] = ".";
+                                    mapaArray[posiY - 1][posiX] = "$";
+                                }
                             }
                             break;
                         case "DOWN":
                             if (mapaArray[posiY + 1][posiX] != "_" && mapaArray[posiY + 1][posiX] != "|") {
-                                    if(mapaArray[posiY + 1][posiX] == "%"){
-                                        Batalha();
-                                        
-                                    }else{
-                                        mapaArray[posiY][posiX] = ".";
-                                        mapaArray[posiY + 1][posiX] = "$";
-                                    }
+                                if (mapaArray[posiY + 1][posiX] == "%") {
+                                    Batalha();
+
+                                } else {
+                                    mapaArray[posiY][posiX] = ".";
+                                    mapaArray[posiY + 1][posiX] = "$";
+                                }
                             }
                             break;
                         case "LEFT":
                             if (mapaArray[posiY][posiX - 1] != "|" && mapaArray[posiY][posiX - 1] != "_") {
-                                    if(mapaArray[posiY][posiX - 1] == "%"){
-                                        Batalha();
-                                        
-                                    }else{
-                                        mapaArray[posiY][posiX] = ".";
-                                        mapaArray[posiY][posiX - 1] = "$";
-                                    }
+                                if (mapaArray[posiY][posiX - 1] == "%") {
+                                    Batalha();
+
+                                } else {
+                                    mapaArray[posiY][posiX] = ".";
+                                    mapaArray[posiY][posiX - 1] = "$";
+                                }
                             }
                             break;
                         case "RIGHT":
                             if (mapaArray[posiY][posiX + 1] != "|" && mapaArray[posiY][posiX + 1] != "_") {
-                                    if(mapaArray[posiY][posiX + 1] == "%"){
-                                        Batalha();
-                                        
-                                    }else{
-                                        mapaArray[posiY][posiX] = ".";
-                                        mapaArray[posiY][posiX + 1] = "$";
-                                    }
+                                if (mapaArray[posiY][posiX + 1] == "%") {
+                                    Batalha();
+
+                                } else {
+                                    mapaArray[posiY][posiX] = ".";
+                                    mapaArray[posiY][posiX + 1] = "$";
+                                }
                             }
                             break;
                         default:
@@ -304,6 +294,7 @@ public class MinhaClasse {
                 .append("td { width: 20px; height: 20px; text-align: center; margin: 0px; padding: 0px;border-color:black}")
                 .append(".parede { background-color: black; }")
                 .append(".vazio { background-color: white; }")
+                .append(".nada { background-color: unset; }")
                 .append(".jogador { background-color: blue; color: white; }")
                 .append(".inimigo { background-color: red; color: red; }")
                 .append("</style></head><body><table>");
@@ -325,6 +316,8 @@ public class MinhaClasse {
                     case "%":
                         mapaVisivel.append("<td class='inimigo'>$</td>");
                         break;
+                    case "":
+                        mapaVisivel.append("<td class='nada'></td>");
                     default:
                         mapaVisivel.append("<td class='vazio'></td>");
                         break;
