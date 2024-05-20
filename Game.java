@@ -1,6 +1,6 @@
 import javax.swing.JFrame;
 
-import Telas.MinhaClasse;
+import Telas.Core;
 public class Game {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Exemplo de JLabel");
@@ -9,7 +9,7 @@ public class Game {
         frame.setLocationRelativeTo(null); // Centraliza a janela na tela
 
         // Criação da instância da classe que adiciona o JLabel
-        new MinhaClasse(frame);
+        new Core(frame);
         
         // Exibe a tela
         frame.setVisible(true);
