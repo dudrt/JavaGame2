@@ -1,6 +1,9 @@
 package Telas;
 
 import javax.swing.*;
+import Inimigos.*;
+import Items.Bolsa.Bag;
+import Jogador.Player;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.stream.IntStream;
@@ -9,12 +12,13 @@ import java.util.OptionalInt;
 import java.awt.*;
 
 public class Core {
+    Bag bolsa = new Bag();
+    Player player = new Player("name", 50, 50, 10, 10, 50, 50, 10, 1, bolsa);
+    Enemy enemy = criarInimigo();
     private JFrame tela;
     private JPanel panel;
     private JLabel label;
-    private boolean batle = false;
-    int vidaInimigo = 100;
-    int vidaPersonagem = 100;
+    private boolean battle = false;
     String[][] mapaArray = {
             { "|", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "|" },
             { "|", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "|" },
@@ -40,7 +44,7 @@ public class Core {
     String[][] opcoesBatalha = {
             { "Porrada", "Soco", "Tiro de Trabuco", "Paulada" },
             // {"Magia","Fogareu","Cura",""},
-            { "Fugir", "", "", "" }
+            { "Cura", "Fugir", "", "" }
     };
 
     String[][] posicaoOpcoesBatalha = {
@@ -58,13 +62,28 @@ public class Core {
         String opcao = opcoesBatalha[posicao[0]][posicao[1]];
         switch (opcao) {
             case "Porrada":
-                //chamar as funcoes aqui
+                int dano = player.playerAttack(enemy);
+                enemy.setHP(enemy.getHP() - dano);
+                dano = enemy.enemyAttack(player);
+                player.setHP(player.getHP() - dano);
+                System.out.println("dano");
+                break;
+            case "Fugir":
+                battle = false;
+                break;
+            case "Cura":
+                player.cura();
                 break;
             default:
                 break;
         }
-
-
+        if(player.getHP() <= 0 || enemy.getHP() <= 0) {
+            battle = false;
+            RemontarMapa("W");
+        }
+        else {
+            GerarTelaBatalha(posicao);
+        }
     }
 
     public void OpcoesBatalha(String key) {
@@ -116,6 +135,7 @@ public class Core {
     }
 
     public void GerarTelaBatalha(int[] array) {
+        System.out.println(player.getMana());
         StringBuilder tela = new StringBuilder("<html><head><style>")
                 .append("table { border-collapse: collapse; margin:0px;margin: 0px; padding: 0px;border:0px }")
                 .append("td { width: 150px; height: 150px; text-align: center; margin: 0px; padding: 0px;border-color:black}")
@@ -125,8 +145,8 @@ public class Core {
                 .append(".opcao { background-color: yellow; color: red; width: 50px; height: 50px;}")
                 .append(".opcaoEscolhida { background-color: black; color: red; width: 50px; height: 50px;}")
                 .append("</style></head><body><table>")
-                .append("<tr><td class='vazio'><td class='vazio'></td><td class='vazio'>HP:"+vidaInimigo+"</td><td class='vazio'></tr>")
-                .append("<tr><td class='vazio'><td class='vazio''>HP:"+vidaPersonagem+"</td><td class='inimigo'><img src='file:img/inimigo.png' width='200' height='250'></td><td class='vazio'></tr>")
+                .append("<tr><td class='vazio'><td class='vazio'></td><td class='vazio'>HP: "+enemy.getHP()+"</td><td class='vazio'></tr>")
+                .append("<tr><td class='vazio'><td class='vazio'>HP:"+player.getHP()+"<br>Mana: "+player.getMana()+"<td class='inimigo'><img src='file:img/"+enemy.getImage()+"' width='200' height='250'></td><td class='vazio'></tr>")
                 .append("<tr><td class='vazio'><td class='jogador'><img src='file:img/player.png' width='200' height='250'></td><td class='vazio'></td><td class='vazio'></tr>");
 
         int interacao = 0;
@@ -157,7 +177,8 @@ public class Core {
     }
 
     public void Batalha() {
-        batle = true;
+        battle = true;
+        enemy = criarInimigo();
         OpcoesBatalha("LEFT");
         int[] arr = { 0, 0 };
         GerarTelaBatalha(arr);
@@ -195,7 +216,7 @@ public class Core {
                 int keyCode = e.getKeyCode();
                 switch (keyCode) {
                     case KeyEvent.VK_UP:
-                        if (!batle) {
+                        if (!battle) {
                             RemontarMapa("UP");
                         }else {
                             OpcoesBatalha("UP");
@@ -203,7 +224,7 @@ public class Core {
 
                         break;
                     case KeyEvent.VK_DOWN:
-                        if (!batle) {
+                        if (!battle) {
                             RemontarMapa("DOWN");
                         }else {
                             OpcoesBatalha("DOWN");
@@ -211,7 +232,7 @@ public class Core {
 
                         break;
                     case KeyEvent.VK_LEFT:
-                        if (!batle) {
+                        if (!battle) {
                             RemontarMapa("LEFT");
                         } else {
                             OpcoesBatalha("LEFT");
@@ -219,15 +240,17 @@ public class Core {
 
                         break;
                     case KeyEvent.VK_RIGHT:
-                        if (!batle) {
+                        if (!battle) {
                             RemontarMapa("RIGHT");
                         } else {
                             OpcoesBatalha("RIGHT");
                         }
                         break;
                     case KeyEvent.VK_ENTER:
-                        if (batle) {
+                        if (battle) {
                             EscolherOpcaoBatalha();
+                            panel.revalidate(); // Atualizar o painel
+                            panel.repaint();
                         }
                     default:
                         break;
@@ -261,11 +284,9 @@ public class Core {
                         case "UP":
                             if (mapaArray[posiY - 1][posiX] != "_" && mapaArray[posiY - 1][posiX] != "|") {
                                 if (mapaArray[posiY - 1][posiX] == "%") {
-
                                     Batalha();
                                     System.out.println("Batalha");
                                 } else {
-
                                     mapaArray[posiY][posiX] = ".";
                                     mapaArray[posiY - 1][posiX] = "$";
                                 }
@@ -297,7 +318,10 @@ public class Core {
                             if (mapaArray[posiY][posiX + 1] != "|" && mapaArray[posiY][posiX + 1] != "_") {
                                 if (mapaArray[posiY][posiX + 1] == "%") {
                                     Batalha();
+                                    OpcoesBatalha("LEFT");
                                     System.out.println("Batalha");
+                                    panel.revalidate(); // Atualizar o painel
+                                    panel.repaint();
                                 } else {
                                     mapaArray[posiY][posiX] = ".";
                                     mapaArray[posiY][posiX + 1] = "$";
@@ -369,5 +393,25 @@ public class Core {
         editorPane.setText(mapaVisivel.toString());
 
         return mapaVisivel.toString();
+    }
+
+    public Enemy criarInimigo() {
+        int inimigo = (int) (Math.random() * 100) + 1;
+        if(inimigo < 10) {
+            Orc enemy = new Orc();
+            return enemy;
+        }
+        else if(inimigo > 10 && inimigo < 40) {
+            Kobold enemy = new Kobold();
+            return enemy;
+        }
+        else if(inimigo > 40 && inimigo < 80) {
+            Goblin enemy = new Goblin();
+            return enemy;
+        }
+        else {
+            Bat enemy = new Bat();
+            return enemy;
+        }
     }
 }

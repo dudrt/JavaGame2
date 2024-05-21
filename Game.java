@@ -14,4 +14,4 @@ public class Game {
         // Exibe a tela
         frame.setVisible(true);
     }
-    }
+}
