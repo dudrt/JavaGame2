@@ -10,7 +10,6 @@ public abstract class Enemy {
     protected int defense;
     protected int speed;
     protected String image;
-    protected Player player;
 
     public Enemy(int id, String name, int maxHP, int HP, int attack, int defense, int speed, String image) {
         this.id = id;

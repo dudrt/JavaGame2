@@ -2,18 +2,12 @@ package Telas;
 
 import javax.swing.*;
 import Inimigos.*;
-import Items.Bolsa.Bag;
 import Jogador.Player;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.stream.IntStream;
-import java.util.Arrays;
-import java.util.OptionalInt;
-import java.awt.*;
 
 public class Core {
-    Bag bolsa = new Bag();
-    Player player = new Player("name", 50, 50, 10, 10, 50, 50, 10, 1, bolsa);
+    Player player = new Player("name", 50, 50, 10, 10, 50, 50, 10, 1);
     Enemy enemy = criarInimigo();
     private JFrame tela;
     private JPanel panel;

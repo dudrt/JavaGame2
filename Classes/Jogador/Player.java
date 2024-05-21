@@ -1,6 +1,4 @@
 package Jogador;
-
-import Items.Bolsa.Bag;
 import Inimigos.Enemy;
 
 public class Player {
@@ -14,9 +12,8 @@ public class Player {
     private int maxMana;
     private int speed;
     private int level;
-    Bag bag;
 
-    public Player(String name, int HP, int maxHP, int attack, int defense, int mana, int maxMana, int speed, int level, Bag bag) {
+    public Player(String name, int HP, int maxHP, int attack, int defense, int mana, int maxMana, int speed, int level) {
         this.name = name;
         this.HP = HP;
         this.maxHP = maxHP;
@@ -26,7 +23,6 @@ public class Player {
         this.maxMana = maxMana;
         this.speed = speed;
         this.level = level;
-        this.bag = bag;
     }
 
     public int attackDamage(Enemy enemy) {
@@ -87,10 +83,6 @@ public class Player {
         return this.mana;
     }
 
-    public void getItems() {
-        bag.displayItems(this);
-    }
-    
     public int setHP(int HP){
         return this.HP = HP;
     }
