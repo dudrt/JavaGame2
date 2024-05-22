@@ -1,5 +1,4 @@
 package Telas;
-
 import javax.swing.*;
 import Inimigos.*;
 import Jogador.Player;
@@ -7,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Core {
+    Musica musica = new Musica();
     Player player = new Player("name", 50, 50, 10, 10, 50, 50, 10, 1);
     Enemy enemy = criarInimigo();
     private JFrame tela;
@@ -64,6 +64,8 @@ public class Core {
                 break;
             case "Fugir":
                 battle = false;
+                musica.stop();
+                musica.playAudio("./audio/field.wav");
                 break;
             case "Cura":
                 player.cura();
@@ -73,6 +75,8 @@ public class Core {
         }
         if(player.getHP() <= 0 || enemy.getHP() <= 0) {
             battle = false;
+            musica.stop();
+            musica.playAudio("./audio/field.wav");
             RemontarMapa("W");
         }
         else {
@@ -171,6 +175,8 @@ public class Core {
     }
 
     public void Batalha() {
+        musica.stop();
+        musica.playAudio("./audio/battle.wav");
         battle = true;
         enemy = criarInimigo();
         OpcoesBatalha("LEFT");
