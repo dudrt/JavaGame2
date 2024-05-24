@@ -29,6 +29,7 @@ public class Musica {
             setVolume(50); // Set volume to 20%
 
             clip.start(); // Start playing the audio
+            System.out.println("Foi música");
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }

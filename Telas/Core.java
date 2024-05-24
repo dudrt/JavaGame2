@@ -6,9 +6,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Core {
-    Musica musica = new Musica();
     Player player = new Player("name", 50, 50, 10, 10, 50, 50, 10, 1);
     Enemy enemy = criarInimigo();
+    Musica musica = new Musica();
     private JFrame tela;
     private JPanel panel;
     private JLabel label;
@@ -396,7 +396,7 @@ public class Core {
     }
 
     public Enemy criarInimigo() {
-        int inimigo = (int) (Math.random() * 100) + 1;
+        int inimigo = (int) (Math.random() * 50) + 1;
         if(inimigo < 10) {
             Orc enemy = new Orc();
             return enemy;

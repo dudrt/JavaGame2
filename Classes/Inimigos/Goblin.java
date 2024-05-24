@@ -1,5 +1,7 @@
 package Inimigos;
 
+import Entidades.Enemy;
+
 public class Goblin extends Enemy {
 
     static int id = 2;
