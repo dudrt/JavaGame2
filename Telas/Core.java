@@ -1,12 +1,13 @@
 package Telas;
 import javax.swing.*;
 import Inimigos.*;
-import Jogador.Player;
+import Entidades.Player;
+import Entidades.Enemy;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Core {
-    Player player = new Player("name", 50, 50, 10, 10, 50, 50, 10, 1);
+    Player player = new Player("player.png","name", 50, 50, 10, 20, 50, 50, 10, 1);
     Enemy enemy = criarInimigo();
     Musica musica = new Musica();
     private JFrame tela;
@@ -56,9 +57,9 @@ public class Core {
         String opcao = opcoesBatalha[posicao[0]][posicao[1]];
         switch (opcao) {
             case "Porrada":
-                int dano = player.playerAttack(enemy);
+                int dano = player.Attack(enemy);
                 enemy.setHP(enemy.getHP() - dano);
-                dano = enemy.enemyAttack(player);
+                dano = enemy.Attack(player);
                 player.setHP(player.getHP() - dano);
                 System.out.println("dano");
                 break;
@@ -145,7 +146,7 @@ public class Core {
                 .append("</style></head><body><table>")
                 .append("<tr><td class='vazio'><td class='vazio'></td><td class='vazio'>HP: "+enemy.getHP()+"</td><td class='vazio'></tr>")
                 .append("<tr><td class='vazio'><td class='vazio'>HP:"+player.getHP()+"<br>Mana: "+player.getMana()+"<td class='inimigo'><img src='file:img/"+enemy.getImage()+"' width='200' height='250'></td><td class='vazio'></tr>")
-                .append("<tr><td class='vazio'><td class='jogador'><img src='file:img/player.png' width='200' height='250'></td><td class='vazio'></td><td class='vazio'></tr>");
+                .append("<tr><td class='vazio'><td class='jogador'><img src='file:img/"+ player.getImage() +"' width='200' height='250'></td><td class='vazio'></td><td class='vazio'></tr>");
 
         int interacao = 0;
         for (String[] linha : opcoesBatalha) {
@@ -398,19 +399,19 @@ public class Core {
     public Enemy criarInimigo() {
         int inimigo = (int) (Math.random() * 50) + 1;
         if(inimigo < 10) {
-            Orc enemy = new Orc();
+            Orc enemy = new Orc(50, 50, 15, 10, 5);
             return enemy;
         }
         else if(inimigo > 10 && inimigo < 40) {
-            Kobold enemy = new Kobold();
+            Kobold enemy = new Kobold(15, 15, 8, 7, 15);
             return enemy;
         }
         else if(inimigo > 40 && inimigo < 80) {
-            Goblin enemy = new Goblin();
+            Goblin enemy = new Goblin(10, 10, 10, 5, 10);
             return enemy;
         }
         else {
-            Bat enemy = new Bat();
+            Bat enemy = new Bat(5, 5, 5, 5, 15);
             return enemy;
         }
     }

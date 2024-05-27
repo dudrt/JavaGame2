@@ -2,49 +2,15 @@ package Entidades;
 
 public class Player extends Entity {
 
-    private String name;
-    private int HP;
-    private int maxHP;
-    private int attack;
-    private int defense;
     private int mana;
     private int maxMana;
-    private int speed;
     private int level;
 
-    public Player(String name, int HP, int maxHP, int attack, int defense, int mana, int maxMana, int speed, int level) {
-        this.name = name;
-        this.HP = HP;
-        this.maxHP = maxHP;
-        this.attack = attack;
-        this.defense = defense;
+    public Player(String image, String name, int HP, int maxHP, int attack, int defense, int mana, int maxMana, int speed, int level) {
+        super(image, name, HP, maxHP, attack, defense, speed);
         this.mana = mana;
         this.maxMana = maxMana;
-        this.speed = speed;
         this.level = level;
-    }
-
-    public int attackDamage(Enemy enemy) {
-        int damage;
-        if(this.attack >= enemy.getDefense()) {
-            damage = this.attack * 2 - enemy.getDefense();
-        }
-        else {
-            damage = this.attack * this.attack / enemy.getDefense();
-        }
-        return damage;
-    }
-
-    public int playerAttack(Enemy enemy) {
-        int dano;
-        if(this.HP > 0) {
-            dano = this.attackDamage(enemy);
-        }
-        else {
-            dano = 0;
-        }
-        correctValues();
-        return dano;
     }
 
     public void getPlayerStats() {
@@ -54,26 +20,6 @@ public class Player extends Entity {
         System.out.println("Mana: " + this.mana);
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public int getHP() {
-        return this.HP;
-    }
-
-    public int getDefense() {
-        return this.defense;
-    }
-
-    public int getAttack() {
-        return this.attack;
-    }
-
-    public int getSpeed() {
-        return this.speed;
-    }
-    
     public int getLevel() {
         return this.level;
     }
@@ -82,18 +28,8 @@ public class Player extends Entity {
         return this.mana;
     }
 
-    public int setHP(int HP){
-        return this.HP = HP;
-    }
-
     public int setMana(int mana){
         return this.mana = mana;
-    }
-
-    public void correctMaxHP() {
-        if(this.HP > this.maxHP) {
-            setHP(maxHP);
-        }
     }
 
     public void correctMaxMana() {

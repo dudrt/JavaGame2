@@ -26,7 +26,7 @@ public class Musica {
 
             // Get volume control
             volumeControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            setVolume(50); // Set volume to 20%
+            setVolume(80); // Set volume to 20%
 
             clip.start(); // Start playing the audio
             System.out.println("Foi música");
