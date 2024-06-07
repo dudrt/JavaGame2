@@ -1,6 +1,6 @@
 package Entidades;
 
-public abstract class Enemy extends Entity {
+public class Enemy extends Entity {
 
     protected int id;
 

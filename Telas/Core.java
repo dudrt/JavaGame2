@@ -1,6 +1,5 @@
 package Telas;
 import javax.swing.*;
-import Inimigos.*;
 import Entidades.Player;
 import Entidades.Enemy;
 import java.awt.event.KeyEvent;
@@ -399,19 +398,19 @@ public class Core {
     public Enemy criarInimigo() {
         int inimigo = (int) (Math.random() * 50) + 1;
         if(inimigo < 10) {
-            Orc enemy = new Orc(50, 50, 15, 10, 5);
+            Enemy enemy = new Enemy(3, "orc.png", "Orc", 50, 50, 15, 10, 5);
             return enemy;
         }
         else if(inimigo > 10 && inimigo < 40) {
-            Kobold enemy = new Kobold(15, 15, 8, 7, 15);
+            Enemy enemy = new Enemy(3, "kobold.png", "Kobold", 15, 15, 7, 8, 15);
             return enemy;
         }
         else if(inimigo > 40 && inimigo < 80) {
-            Goblin enemy = new Goblin(10, 10, 10, 5, 10);
+            Enemy enemy = new Enemy(2, "goblin.png", "Goblin", 20, 20, 7, 6, 10);
             return enemy;
         }
         else {
-            Bat enemy = new Bat(5, 5, 5, 5, 15);
+            Enemy enemy = new Enemy(1, "bat.png", "Morcego", 5, 5, 5, 4, 20);
             return enemy;
         }
     }
