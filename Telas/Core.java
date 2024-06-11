@@ -1,18 +1,19 @@
 package Telas;
 import javax.swing.*;
+
+import Controllers.*;
 import Entidades.Player;
 import Entidades.Enemy;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class Core {
     Player player = new Player("player.png","name", 50, 50, 10, 20, 50, 50, 10, 1);
-    Enemy enemy = criarInimigo();
-    Musica musica = new Musica();
+    Enemy enemy = CoreController.criarInimigo();
+    MusicController musica = new MusicController();
+    InputController inputListener = new InputController(this);
     private JFrame tela;
-    private JPanel panel;
+    public JPanel panel;
     private JLabel label;
-    private boolean battle = false;
+    public boolean battle = false;
     String[][] mapaArray = {
             { "|", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "_", "|" },
             { "|", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "|" },
@@ -174,15 +175,7 @@ public class Core {
 
     }
 
-    public void Batalha() {
-        musica.stop();
-        musica.playAudio("./audio/battle.wav");
-        battle = true;
-        enemy = criarInimigo();
-        OpcoesBatalha("LEFT");
-        int[] arr = { 0, 0 };
-        GerarTelaBatalha(arr);
-    }
+
 
     private void initUI() {
         // Criação do painel
@@ -210,63 +203,17 @@ public class Core {
         // Atualiza o painel
         panel.revalidate();
         panel.repaint();
-        panel.addKeyListener(new KeyListener() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int keyCode = e.getKeyCode();
-                switch (keyCode) {
-                    case KeyEvent.VK_UP:
-                        if (!battle) {
-                            RemontarMapa("UP");
-                        }else {
-                            OpcoesBatalha("UP");
-                        }
+        panel.addKeyListener(inputListener);
+    }
 
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        if (!battle) {
-                            RemontarMapa("DOWN");
-                        }else {
-                            OpcoesBatalha("DOWN");
-                        }
-
-                        break;
-                    case KeyEvent.VK_LEFT:
-                        if (!battle) {
-                            RemontarMapa("LEFT");
-                        } else {
-                            OpcoesBatalha("LEFT");
-                        }
-
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        if (!battle) {
-                            RemontarMapa("RIGHT");
-                        } else {
-                            OpcoesBatalha("RIGHT");
-                        }
-                        break;
-                    case KeyEvent.VK_ENTER:
-                        if (battle) {
-                            EscolherOpcaoBatalha();
-                            panel.revalidate(); // Atualizar o painel
-                            panel.repaint();
-                        }
-                    default:
-                        break;
-                }
-            }
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-                // Método necessário para a interface KeyListener
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                // Método necessário para a interface KeyListener
-            }
-        });
+    public void Batalha() {
+        musica.stop();
+        musica.playAudio("./audio/battle.wav");
+        battle = true;
+        enemy = CoreController.criarInimigo();
+        OpcoesBatalha("LEFT");
+        int[] arr = { 0, 0 };
+        GerarTelaBatalha(arr);
     }
 
     public void RemontarMapa(String key) {
@@ -393,25 +340,5 @@ public class Core {
         editorPane.setText(mapaVisivel.toString());
 
         return mapaVisivel.toString();
-    }
-
-    public Enemy criarInimigo() {
-        int inimigo = (int) (Math.random() * 50) + 1;
-        if(inimigo < 10) {
-            Enemy enemy = new Enemy(3, "orc.png", "Orc", 50, 50, 15, 10, 5);
-            return enemy;
-        }
-        else if(inimigo > 10 && inimigo < 40) {
-            Enemy enemy = new Enemy(3, "kobold.png", "Kobold", 15, 15, 7, 8, 15);
-            return enemy;
-        }
-        else if(inimigo > 40 && inimigo < 80) {
-            Enemy enemy = new Enemy(2, "goblin.png", "Goblin", 20, 20, 7, 6, 10);
-            return enemy;
-        }
-        else {
-            Enemy enemy = new Enemy(1, "bat.png", "Morcego", 5, 5, 5, 4, 20);
-            return enemy;
-        }
     }
 }

@@ -1,4 +1,4 @@
-package Telas;
+package Controllers;
 import java.io.File;
 import java.io.IOException;
 
@@ -9,15 +9,15 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class Musica {
+public class MusicController {
     private Clip clip;
     private FloatControl volumeControl;
 
-    public Musica() {
+    public MusicController() {
         playAudio("./audio/field.wav");
     }
 
-    void playAudio(String filePath) {
+    public void playAudio(String filePath) {
         try {
             File audioFile = new File(filePath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
@@ -44,7 +44,7 @@ public class Musica {
         }
     }
 
-    void stop() {
+    public void stop() {
         clip.stop();
     }
 }
